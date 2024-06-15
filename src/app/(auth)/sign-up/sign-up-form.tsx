@@ -17,7 +17,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signIn } from "@/lib/actions/actions";
 import { client } from "@/lib/client";
 import { insertUserSchema } from "@/lib/db/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -72,26 +71,27 @@ const SignUpForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
         <FormField
           control={form.control}
-          name="username"
+          name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Your username here" {...field} />
+                <Input
+                  type="email"
+                  placeholder="Your email here" {...field} />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="email"
+          name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="Your email here" {...field} />
+                <Input placeholder="Your username here" autoComplete="username" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -121,6 +121,8 @@ const SignUpForm = () => {
   );
 };
 
-const userSchema = insertUserSchema.omit({
-  id: true,
+const userSchema = insertUserSchema.extend({
+  passwordHash: z.string().min(8),
+  email: z.string().email(),
+  username: z.string().min(3),
 });
