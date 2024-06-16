@@ -10,9 +10,8 @@ export const account = pgTable("accounts", {
 
 export const user = pgTable("users", {
   id: text("id").primaryKey(),
-  username: text("usernams").notNull(),
-  email: text("username").notNull(),
-  passwordHash: text("password_hash").notNull(),
+  username: text("username").notNull(),
+  github_id: text("github_id").unique()
 });
 
 export const session = pgTable("sessions", {
