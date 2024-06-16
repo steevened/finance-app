@@ -1,9 +1,9 @@
-import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const account = pgTable("accounts", {
-  id: text("id").primaryKey(),
+  id: serial("id").primaryKey(),
   name: text("name").notNull(),
   userId: text("user_id").notNull(),
 });
@@ -11,7 +11,8 @@ export const account = pgTable("accounts", {
 export const user = pgTable("users", {
   id: text("id").primaryKey(),
   username: text("username").notNull(),
-  github_id: text("github_id").unique()
+  github_id: text("github_id").unique(),
+  defaultAccountId: text("default_account_id"),
 });
 
 export const session = pgTable("sessions", {

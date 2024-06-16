@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1717367309995,
-      "tag": "0000_awesome_magik",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1718484744297,
-      "tag": "0001_glorious_winter_soldier",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1718484788323,
-      "tag": "0002_ambitious_sabretooth",
+      "when": 1718518104861,
+      "tag": "0000_lame_elektra",
       "breakpoints": true
     }
   ]

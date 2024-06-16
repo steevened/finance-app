@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "accounts" (
-	"id" text PRIMARY KEY NOT NULL,
+	"id" serial PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"user_id" text NOT NULL
 );
@@ -12,9 +12,10 @@ CREATE TABLE IF NOT EXISTS "sessions" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
 	"id" text PRIMARY KEY NOT NULL,
-	"usernams" text NOT NULL,
 	"username" text NOT NULL,
-	"password_hash" text NOT NULL
+	"github_id" text,
+	"default_account_id" text,
+	CONSTRAINT "users_github_id_unique" UNIQUE("github_id")
 );
 --> statement-breakpoint
 DO $$ BEGIN
