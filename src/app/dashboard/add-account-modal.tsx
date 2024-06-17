@@ -14,14 +14,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createAccount } from "@/lib/actions/account.actions";
 
-export default function AddAccountModal() {
+export default function AddAccountModal({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
   return (
-    <Drawer>
-      <DrawerTrigger asChild>
-        <Button className="w-full justify-start px-2" variant={"ghost"}>
-          Add Account
-        </Button>
-      </DrawerTrigger>
+    <Drawer
+      open={open}
+      onOpenChange={onOpenChange}
+    >
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
