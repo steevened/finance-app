@@ -54,10 +54,7 @@ export default function AccountsPopover({
             </Avatar>
             <CaretRightIcon className="w-5 h-5" />
             <span>
-              {myAccounts.find((a) =>
-                user?.defaultAccountId && a.id === +user?.defaultAccountId
-              )
-                ?.name || user.username}
+              {defaultAccount ? defaultAccount()?.name : user.username}
             </span>
             <CaretSortIcon className="w-5 h-5" />
           </Button>
