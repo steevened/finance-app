@@ -1,5 +1,5 @@
-import Header from "@/components/header";
 import { client } from "@/lib/client";
+import Header from "./header";
 
 const getAccounts = async () => {
   const res = await client.api.accounts.$get();
@@ -15,7 +15,6 @@ export default async function Home() {
 
   return (
     <div>
-      <Header />
       {JSON.stringify(data)}
     </div>
   );

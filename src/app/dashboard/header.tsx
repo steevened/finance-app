@@ -1,6 +1,7 @@
 import { getMyUser } from "@/lib/services/user.services";
 import AccountsPopover from "./accounts-popover";
 import { getMyAAccounts } from "@/lib/services/account.services";
+import UserMenu from "./user-menu";
 
 export default async function Header() {
   const user = await getMyUser();
@@ -11,6 +12,9 @@ export default async function Header() {
         user={user}
         myAccounts={myAccounts}
       />
+      <div className="flex gap-2">
+        <UserMenu />
+      </div>
     </div>
   );
 }
