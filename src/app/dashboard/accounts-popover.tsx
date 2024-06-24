@@ -43,19 +43,24 @@ export default function AccountsPopover({
         <DropdownMenuTrigger asChild>
           <Button
             variant={"ghost"}
-            className="py-6 text-foreground space-x-1.5"
+            className="py-6 w-full text-foreground flex justify-between"
           >
-            <Avatar>
-              <AvatarFallback className="uppercase">
-                {defaultAccount
-                  ? defaultAccount()?.name.slice(0, 2)
-                  : user.username.slice(0, 2)}
-              </AvatarFallback>
-            </Avatar>
-            <CaretRightIcon className="w-5 h-5" />
-            <span>
-              {defaultAccount ? defaultAccount()?.name : user.username}
-            </span>
+            <div className="flex items-center w-full gap-1">
+              <Avatar>
+                <AvatarFallback className="uppercase">
+                  {defaultAccount
+                    ? defaultAccount()?.name.slice(0, 2)
+                    : user.username.slice(0, 2)}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-shrink-0">
+                <CaretRightIcon className="w-5 h-5" />
+              </div>
+
+              <span className="truncate max-w-full">
+                {defaultAccount ? defaultAccount()?.name : user.username}
+              </span>
+            </div>
             <CaretSortIcon className="w-5 h-5" />
           </Button>
         </DropdownMenuTrigger>
