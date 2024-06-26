@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "dark")}>
+      <body className={cn(inter.className,)}>
         <ClientProviders>
           <div vaul-drawer-wrapper="">
             <div className="relative flex min-h-screen flex-col bg-background">

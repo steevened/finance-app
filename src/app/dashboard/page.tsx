@@ -1,5 +1,6 @@
 import { client } from "@/lib/client";
 import Header from "./header";
+import { getMyUser } from "@/lib/services/user.services";
 
 const getAccounts = async () => {
   const res = await client.api.accounts.$get();
@@ -12,10 +13,11 @@ const getAccounts = async () => {
 
 export default async function Home() {
   const { data } = await getAccounts();
+  const profile = await getMyUser();
 
   return (
-    <div>
-      {JSON.stringify(data)}
+    <div className="grid gap-6">
+      <h2>Good night, {profile.username}</h2>
     </div>
   );
 }

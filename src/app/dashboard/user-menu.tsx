@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -17,41 +17,43 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { logout } from "@/lib/actions/auth.actions";
 import { getMyUser } from "@/lib/services/user.services";
+import { cn } from "@/lib/utils";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
-import {
-  Monitor,
-  MoonIcon,
-  Sun
-} from "lucide-react";
+import { Monitor, MoonIcon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 
 export default function UserMenu({
   size = "sm",
-  user
+  user,
 }: {
-  size?: 'sm' | 'lg'
-  user: Awaited<ReturnType<typeof getMyUser>>
+  size?: "sm" | "lg";
+  user: Awaited<ReturnType<typeof getMyUser>>;
 }) {
   const { setTheme, theme } = useTheme();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size={size === 'sm' ? "icon" : 'lg'} variant={"ghost"} className="justify-between gap-2">
-          <Avatar className="w-6 h-6">
+        <Button
+          size={size === "sm" ? "icon" : "lg"}
+          variant={"ghost"}
+          className={cn(size === "lg" ? "justify-between gap-2 py-6" : "")}
+        >
+          <Avatar className={cn(size === "sm" ? "w-6 h-6" : "")}>
             <AvatarFallback>SS</AvatarFallback>
           </Avatar>
-          {size === 'lg' ? (
-            <div className="flex items-center w-full justify-between">
-              <div>
-
-                <p>
-                  {user.username}
-                </p>
+          {size === "lg"
+            ? (
+              <div className="flex items-center w-full justify-between">
+                <div>
+                  <p>
+                    {user.username}
+                  </p>
+                </div>
+                <DotsVerticalIcon />
               </div>
-              <DotsVerticalIcon />
-            </div>
-          ) : null}
+            )
+            : null}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
@@ -101,4 +103,3 @@ export default function UserMenu({
     </DropdownMenu>
   );
 }
-

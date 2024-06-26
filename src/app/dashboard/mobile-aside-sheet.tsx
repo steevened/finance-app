@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -7,6 +8,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import NavMenu from "./nav-menu";
 
 export default function MobileAsideSheet() {
   return (
@@ -16,12 +18,14 @@ export default function MobileAsideSheet() {
           <HamburgerMenuIcon />
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="flex flex-col gap-6">
         <SheetHeader>
           <SheetTitle>
             Fincances app
           </SheetTitle>
         </SheetHeader>
+        <Separator />
+        <NavMenu />
       </SheetContent>
     </Sheet>
   );
