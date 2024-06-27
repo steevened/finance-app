@@ -21,7 +21,7 @@ export default function MobileAsideSheet() {
       <SheetContent className="flex flex-col gap-6">
         <SheetHeader>
           <SheetTitle>
-            Fincances app
+            Finances app
           </SheetTitle>
         </SheetHeader>
         <Separator />

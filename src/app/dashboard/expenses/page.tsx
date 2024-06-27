@@ -1,7 +1,7 @@
 export default function Page() {
   return (
     <div>
-      <h1>Expenses</h1>
+      <h2>Expenses</h2>
     </div>
   );
 }

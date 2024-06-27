@@ -1,6 +1,8 @@
 import { client } from "@/lib/client";
-import Header from "./header";
+import Header from "../header";
 import { getMyUser } from "@/lib/services/user.services";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import BalanceCard from "./balance-card";
 
 const getAccounts = async () => {
   const res = await client.api.accounts.$get();
@@ -18,6 +20,10 @@ export default async function Home() {
   return (
     <div className="grid gap-6">
       <h2>Good night, {profile.username}</h2>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4">
+        <BalanceCard />
+      </div>
     </div>
   );
 }

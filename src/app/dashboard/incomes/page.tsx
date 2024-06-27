@@ -1,7 +1,7 @@
 export default function Page() {
   return (
     <div>
-      <h1>Incomes</h1>
+      <h2>Incomes</h2>
     </div>
   );
 }
