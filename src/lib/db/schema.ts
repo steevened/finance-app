@@ -53,3 +53,6 @@ export const insertAccountSchema = createInsertSchema(account);
 
 export const selectUserSchema = createSelectSchema(user);
 export const insertUserSchema = createInsertSchema(user);
+
+export const selectIncomeSchema = createSelectSchema(income);
+export const insertIncomeSchema = createInsertSchema(income);

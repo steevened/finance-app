@@ -50,8 +50,8 @@ export default function BalanceCard() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex ">
-          <p>$185</p>
+        <div className="flex items-center justify-between">
+          <p>$185.00</p>
           <SparkAreaChart
             data={chartdata}
             index="date"
