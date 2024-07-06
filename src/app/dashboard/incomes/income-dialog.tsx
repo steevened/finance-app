@@ -12,7 +12,11 @@ import {
 import { useUIStore } from "@/store/ui.store";
 import IncomeForm from "./income-form";
 
-export default function IncomeDialog() {
+export default function IncomeDialog({
+  origin,
+}: {
+  origin: "create" | "update";
+}) {
   const {
     isIncomesDialogOpen,
     setIncomesDialog,
@@ -31,7 +35,7 @@ export default function IncomeDialog() {
     >
       <DialogTrigger asChild>
         <Button>
-          {activeIncome ? "Update income" : "Add income"}
+          {activeIncome && origin === "update" ? "Update income" : "Add income"}
         </Button>
       </DialogTrigger>
       <DialogContent>

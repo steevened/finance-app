@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createExpense } from "@/lib/actions/expenses.actions";
+import { createExpense, updateExpense } from "@/lib/actions/expenses.actions";
 import { updateIncome } from "@/lib/actions/incomes.actions";
 import { createExpenseSchema } from "@/lib/schemas/expenses.schema";
 import { Expense } from "@/lib/types";
@@ -23,10 +23,12 @@ export default function ExpenseForm({
   onCancel,
   oncompleted,
   initialExpense,
+  origin,
 }: {
   onCancel: () => void;
   oncompleted: () => void;
   initialExpense?: Expense;
+  origin: "create" | "update";
 }) {
   type FormValues = z.infer<typeof createExpenseSchema>;
   const form = useForm<FormValues>({
@@ -39,19 +41,19 @@ export default function ExpenseForm({
 
   const onSubmit = form.handleSubmit(async (data) => {
     try {
-      if (initialExpense) {
-        await updateIncome({
-          incomeId: initialExpense.id,
+      if (origin === "update" && initialExpense) {
+        await updateExpense({
+          expenseId: initialExpense.id,
           data,
         });
-        toast.success("Income updated successfully!");
+        toast.success("Expense updated successfully!");
       } else {
         await createExpense(data);
-        toast.success("Income added successfully!");
+        toast.success("Expense added successfully!");
       }
       oncompleted();
     } catch (error) {
-      toast.error("Failed to add income");
+      toast.error("Failed to add expense");
     }
   });
 

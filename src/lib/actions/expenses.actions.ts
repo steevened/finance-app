@@ -46,8 +46,33 @@ export const createExpense = async (data: CreateExpense) => {
     }
 };
 
-export const updateExpense = async () => {
+export const updateExpense = async ({
+    expenseId,
+    data
+}: {
+    expenseId: number,
+    data: UpdateExpense
+}) => {
+    try {
+        await db.update(expense).set({
+            name: data.name,
+            amount: data.amount,
+            updatedAt: new Date()
+        }).where(eq(expense.id,
+            expenseId
+        ))
+        revalidatePath("/dashboard")
+    } catch (error) {
+        throw new Error(error as string)
+    }
 };
 
-export const deleteExpense = async () => {
+export const deleteExpense = async (expenseId: number) => {
+    try {
+        await db.delete(expense).where(eq(expense.id, expenseId))
+        revalidatePath('/dashboard')
+    } catch (error) {
+        throw new Error(error as string)
+
+    }
 };

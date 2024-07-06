@@ -11,9 +11,12 @@ import {
 } from "@/components/ui/dialog";
 import { useUIStore } from "@/store/ui.store";
 import ExpenseForm from "./expense-form";
-// import AddIncomeForm from "./add-income-form";
 
-export default function ExpenseDialog() {
+export default function ExpenseDialog({
+  origin,
+}: {
+  origin: "create" | "update";
+}) {
   const {
     isExpensesDialogOpen,
     setExpensesDialog,
@@ -32,7 +35,9 @@ export default function ExpenseDialog() {
     >
       <DialogTrigger asChild>
         <Button>
-          {activeExpense ? "Update expense" : "Add expense"}
+          {activeExpense && origin === "update"
+            ? "Update expense"
+            : "Add expense"}
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -48,6 +53,7 @@ export default function ExpenseDialog() {
         </DialogHeader>
         <div>
           <ExpenseForm
+            origin={origin}
             onCancel={() => setExpensesDialog(false)}
             oncompleted={() => setExpensesDialog(false)}
             initialExpense={activeExpense}

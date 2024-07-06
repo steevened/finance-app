@@ -7,7 +7,7 @@ export default async function Page() {
     <div className="grid gap-6">
       <div className="flex justify-between">
         <h2>Incomes</h2>
-        <IncomeDialog />
+        <IncomeDialog origin="create" />
       </div>
       <Separator />
       <IncomesTable />
