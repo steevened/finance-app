@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useUIStore } from "@/store/ui.store";
-import AddIncomeForm from "./add-income-form";
+import IncomeForm from "./income-form";
 
 export default function IncomeDialog() {
   const {
@@ -31,13 +31,13 @@ export default function IncomeDialog() {
     >
       <DialogTrigger asChild>
         <Button>
-          {activeIncome ? "Update Income" : "Add Income"}
+          {activeIncome ? "Update income" : "Add income"}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            Add Income
+            {activeIncome ? "Update income" : "Add income"}
           </DialogTitle>
           <DialogDescription>
             {activeIncome
@@ -46,7 +46,7 @@ export default function IncomeDialog() {
           </DialogDescription>
         </DialogHeader>
         <div>
-          <AddIncomeForm
+          <IncomeForm
             onCancel={() => setIncomesDialog(false)}
             oncompleted={() => setIncomesDialog(false)}
             initialIncome={activeIncome}

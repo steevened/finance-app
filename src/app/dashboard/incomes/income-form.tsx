@@ -10,16 +10,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { account, insertIncomeSchema } from "@/lib/db/schema";
+import { createIncome, updateIncome } from "@/lib/actions/incomes.actions";
 import { createIncomeSchema } from "@/lib/schemas/incomes.schema";
+import { Income } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { toast } from "sonner";
-import { createIncome, updateIncome } from "@/lib/actions/incomes.actions";
-import { Income } from "@/lib/types";
+import { z } from "zod";
 
-export default function AddIncomeForm({
+export default function IncomeForm({
   onCancel,
   oncompleted,
   initialIncome,

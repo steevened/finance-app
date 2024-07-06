@@ -35,6 +35,10 @@ export const expense = pgTable("expenses", {
     withTimezone: true,
     mode: "date",
   }).notNull(),
+  updatedAt: timestamp('updated_at', {
+    withTimezone: true,
+    mode: "date"
+  }),
   accountId: integer("account_id").references(() => account.id),
 });
 
@@ -61,3 +65,6 @@ export const insertUserSchema = createInsertSchema(user);
 
 export const selectIncomeSchema = createSelectSchema(income);
 export const insertIncomeSchema = createInsertSchema(income);
+
+export const selectExpenseSchema = createSelectSchema(expense);
+export const insertExpenseSchema = createInsertSchema(expense);

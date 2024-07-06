@@ -1,5 +1,5 @@
-import Aside from "./aside";
-import Header from "./header";
+import Aside from "./components/aside";
+import Header from "./components/header";
 export default async function Layout(
   { children }: { children: React.ReactNode },
 ) {

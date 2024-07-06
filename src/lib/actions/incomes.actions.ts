@@ -9,7 +9,7 @@ import { revalidatePath } from "next/cache"
 import { eq } from "drizzle-orm"
 
 type CreateIncome = z.infer<typeof createIncomeSchema>
-type UpdateIncome = Partial<z.infer<typeof createIncomeSchema>>
+type UpdateIncome = Partial<CreateIncome>
 
 export const createIncome = async (data: CreateIncome) => {
     const myUser = await getMyUser()

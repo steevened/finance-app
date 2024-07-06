@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getMyAAccounts } from "@/lib/services/account.services";
+import { getMyAccounts } from "@/lib/services/account.services";
 import { getMyUser } from "@/lib/services/user.services";
 import {
   CaretRightIcon,
@@ -27,7 +27,7 @@ export default function AccountsPopover({
   myAccounts,
 }: {
   user: Awaited<ReturnType<typeof getMyUser>>;
-  myAccounts: Awaited<ReturnType<typeof getMyAAccounts>>;
+  myAccounts: Awaited<ReturnType<typeof getMyAccounts>>;
 }) {
   const [isAddAcccountModalOpen, setIsAddAccountModalOpen] = useState(false);
 

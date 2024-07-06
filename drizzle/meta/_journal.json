@@ -15,6 +15,13 @@
       "when": 1720295564365,
       "tag": "0001_slippery_paper_doll",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1720298250392,
+      "tag": "0002_eminent_major_mapleleaf",
+      "breakpoints": true
     }
   ]
 }

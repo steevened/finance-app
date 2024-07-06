@@ -9,7 +9,7 @@ export default async function Page() {
         <h2>Incomes</h2>
         <IncomeDialog />
       </div>
-      <Separator className="bg-foreground/10" />
+      <Separator />
       <IncomesTable />
     </div>
   );
