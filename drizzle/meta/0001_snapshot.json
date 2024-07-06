@@ -1,6 +1,6 @@
 {
-  "id": "f403ab3c-2264-467f-ba28-bc7e66495d73",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "a97dd0fc-ad4f-40b0-bfb8-2a3a9f2b255f",
+  "prevId": "f403ab3c-2264-467f-ba28-bc7e66495d73",
   "version": "6",
   "dialect": "postgresql",
   "tables": {
@@ -115,6 +115,12 @@
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
         },
         "account_id": {
           "name": "account_id",

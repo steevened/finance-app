@@ -16,28 +16,39 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
-import { createIncome } from "@/lib/actions/incomes.actions";
+import { createIncome, updateIncome } from "@/lib/actions/incomes.actions";
+import { Income } from "@/lib/types";
 
 export default function AddIncomeForm({
   onCancel,
   oncompleted,
+  initialIncome,
 }: {
   onCancel: () => void;
   oncompleted: () => void;
+  initialIncome?: Income;
 }) {
   type FormValues = z.infer<typeof createIncomeSchema>;
   const form = useForm<FormValues>({
     resolver: zodResolver(createIncomeSchema),
     defaultValues: {
-      name: "",
-      amount: undefined,
+      name: initialIncome?.name ?? "",
+      amount: initialIncome?.amount ?? undefined,
     },
   });
 
   const onSubmit = form.handleSubmit(async (data) => {
     try {
-      await createIncome(data);
-      toast.success("Income added successfully");
+      if (initialIncome) {
+        await updateIncome({
+          incomeId: initialIncome.id,
+          data,
+        });
+        toast.success("Income updated successfully!");
+      } else {
+        await createIncome(data);
+        toast.success("Income added successfully!");
+      }
       oncompleted();
     } catch (error) {
       toast.error("Failed to add income");
@@ -93,10 +104,13 @@ export default function AddIncomeForm({
 
         <div className="flex gap-2">
           <Button
-            disabled={form.formState.isSubmitting}
+            isLoading={form.formState.isSubmitting}
+            loadingText={initialIncome ? "Updating income" : "Adding income"}
+            disabled={form.formState.isSubmitting ||
+              (initialIncome && !form.formState.isDirty)}
             type="submit"
           >
-            Add Income
+            Continue
           </Button>
           <Button
             disabled={form.formState.isSubmitting}

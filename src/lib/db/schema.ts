@@ -13,7 +13,7 @@ export const user = pgTable("users", {
   id: text("id").primaryKey(),
   username: text("username").notNull(),
   github_id: text("github_id").unique(),
-  defaultAccountId: text("default_account_id"),
+  defaultAccountId: integer("default_account_id"),
 });
 
 export const session = pgTable("sessions", {
@@ -46,6 +46,10 @@ export const income = pgTable("incomes", {
     withTimezone: true,
     mode: "date",
   }).notNull(),
+  updatedAt: timestamp('updated_at', {
+    withTimezone: true,
+    mode: "date"
+  }),
   accountId: integer("account_id").references(() => account.id),
 });
 
