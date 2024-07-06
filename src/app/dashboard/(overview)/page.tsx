@@ -1,7 +1,5 @@
 import { client } from "@/lib/client";
-import Header from "../header";
 import { getMyUser } from "@/lib/services/user.services";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import BalanceCard from "./balance-card";
 
 const getAccounts = async () => {

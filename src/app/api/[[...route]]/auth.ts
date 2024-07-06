@@ -40,7 +40,7 @@ const app = new Hono()
 
       const githubUser: GithubUser = await githubUserResponse.json();
 
-      const existingUser = await db
+      const [existingUser] = await db
         .select()
         .from(user)
         .where(eq(
@@ -49,8 +49,8 @@ const app = new Hono()
         ))
         .limit(1);
 
-      if (existingUser && existingUser.length > 0) {
-        const session = await lucia.createSession(existingUser[0].id, {});
+      if (existingUser) {
+        const session = await lucia.createSession(existingUser.id, {});
         const sessionCookie = lucia.createSessionCookie(session.id);
 
         cookies().set(
@@ -59,24 +59,7 @@ const app = new Hono()
           sessionCookie.attributes,
         );
 
-        const accounts = await db.select().from(account).where(
-          eq(account.userId, existingUser[0].id),
-        );
 
-        if (!accounts || accounts.length === 0) {
-          const [defaultAccount] = await db.insert(account).values({
-            name: existingUser[0].username,
-            userId: existingUser[0].id,
-          }).returning({
-            id: account.id,
-            name: account.name,
-            userId: account.userId,
-          });
-
-          await db.update(user).set({
-            defaultAccountId: defaultAccount.id.toString(),
-          }).where(eq(user.id, defaultAccount.userId));
-        }
 
         return new Response(null, {
           status: 302,
@@ -106,7 +89,7 @@ const app = new Hono()
       return new Response(null, {
         status: 302,
         headers: {
-          Location: "/",
+          Location: "/onboarding",
         },
       });
     } catch (error) {

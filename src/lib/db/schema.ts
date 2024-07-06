@@ -2,27 +2,6 @@ import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
-export const expense = pgTable("expenses", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  amount: integer("amount").default(0),
-  createdAt: timestamp("created_at", {
-    withTimezone: true,
-    mode: "date",
-  }).notNull(),
-  accountId: text("account_id").notNull().references(() => account.id),
-});
-
-export const income = pgTable("incomes", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  amount: integer("amount").default(0),
-  createdAt: timestamp("created_at", {
-    withTimezone: true,
-    mode: "date",
-  }).notNull(),
-  accountId: text("account_id").notNull().references(() => account.id),
-});
 
 export const account = pgTable("accounts", {
   id: serial("id").primaryKey(),
@@ -46,6 +25,28 @@ export const session = pgTable("sessions", {
     withTimezone: true,
     mode: "date",
   }).notNull(),
+});
+
+export const expense = pgTable("expenses", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  amount: integer("amount").default(0),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
+  accountId: integer("account_id").references(() => account.id),
+});
+
+export const income = pgTable("incomes", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  amount: integer("amount").default(0),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
+  accountId: integer("account_id").references(() => account.id),
 });
 
 export const selectAccountSchema = createSelectSchema(account);

@@ -9,10 +9,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import AddIncomeForm from "./add-income-form";
+import { useState } from "react";
 
 export default function AddIncomeDialog() {
+  const [isAddIncomeModalOpen, setIsAddIncomeModalOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog
+      open={isAddIncomeModalOpen}
+      onOpenChange={setIsAddIncomeModalOpen}
+    >
       <DialogTrigger asChild>
         <Button>
           Add Income
@@ -28,7 +34,10 @@ export default function AddIncomeDialog() {
           </DialogDescription>
         </DialogHeader>
         <div>
-          add income form
+          <AddIncomeForm
+            onCancel={() => setIsAddIncomeModalOpen(false)}
+            oncompleted={() => setIsAddIncomeModalOpen(false)}
+          />
         </div>
       </DialogContent>
     </Dialog>
