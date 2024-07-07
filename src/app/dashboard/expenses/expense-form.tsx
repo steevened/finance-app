@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { createExpense, updateExpense } from "@/lib/actions/expenses.actions";
-import { updateIncome } from "@/lib/actions/incomes.actions";
 import { createExpenseSchema } from "@/lib/schemas/expenses.schema";
 import { Expense } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -85,18 +84,8 @@ export default function ExpenseForm({
               <FormLabel>Amount</FormLabel>
               <FormControl>
                 <Input
-                  type="number"
                   {...field}
                   placeholder="Enter expense amount"
-                  value={field.value ?? ""}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (value === "") {
-                      field.onChange(undefined);
-                    } else {
-                      field.onChange(parseFloat(value));
-                    }
-                  }}
                 />
               </FormControl>
               <FormMessage />

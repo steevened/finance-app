@@ -82,18 +82,20 @@ export default function IncomeForm({
               <FormLabel>Amount</FormLabel>
               <FormControl>
                 <Input
-                  type="number"
-                  {...field}
+                  {
+                    // type="number"
+                    ...field
+                  }
                   placeholder="Enter income amount"
-                  value={field.value ?? ""}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (value === "") {
-                      field.onChange(undefined);
-                    } else {
-                      field.onChange(parseFloat(value));
-                    }
-                  }}
+                  // value={field.value ?? ""}
+                  // onChange={(e) => {
+                  //   const value = e.target.value;
+                  //   if (value === "") {
+                  //     field.onChange(undefined);
+                  //   } else {
+                  //     field.onChange(parseFloat(value));
+                  //   }
+                  // }}
                 />
               </FormControl>
               <FormMessage />

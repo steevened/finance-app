@@ -1,6 +1,9 @@
 import { client } from "@/lib/client";
 import { getMyUser } from "@/lib/services/user.services";
 import BalanceCard from "./balance-card";
+import RangeTabs from "./range-tabs";
+import { formatCurrency } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
 
 const getAccounts = async () => {
   const res = await client.api.accounts.$get();
@@ -17,13 +20,18 @@ export default async function Home() {
 
   return (
     <div className="grid gap-6">
-      <h2>Good night, {profile.username}</h2>
-
-      <div className="grid  gap-4 md:grid-cols-3">
-        <BalanceCard />
-        <BalanceCard />
-        <BalanceCard />
+      <div className="flex items-center justify-between">
+        <h2>Good night, {profile.username}</h2>
+        <div className="text-end">
+          <small>
+            Today
+          </small>
+          <h2>{formatCurrency(0)}</h2>
+        </div>
       </div>
+      <Separator />
+
+      <RangeTabs />
     </div>
   );
 }

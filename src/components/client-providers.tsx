@@ -4,6 +4,7 @@
 // extracting this part out into it's own file with 'use client' on top
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "./theme-provider";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -53,7 +54,13 @@ export default function ClientProviders({
     >
       <QueryClientProvider client={queryClient}>
         {children}
-      </QueryClientProvider >
+      </QueryClientProvider>
+      <ProgressBar
+        height="4px"
+        color={"#80cbc4"}
+        options={{ showSpinner: false }}
+        shallowRouting
+      />
     </ThemeProvider>
   );
 }
