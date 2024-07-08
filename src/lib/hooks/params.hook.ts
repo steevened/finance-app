@@ -20,28 +20,33 @@ export default function useParams() {
         return params.toString();
     }, [searchParams]);
 
-    const replaceRouter = useCallback(
-        (value: string) =>
-            router.replace(pathname + `?${value}`, { scroll: false }),
-        [pathname, router],
-    );
 
-    const getQueryParam = (name: string): string | null => {
+    const getFullPathname = () => {
+        const params = new URLSearchParams(searchParams.toString())
+        return pathname + `?${params.toString()}`
+    }
+
+    const replaceRouter =
+        useCallback((value: string) =>
+            router.replace(pathname + `?${value}`, { scroll: false }), [pathname, router])
+
+
+    const getQueryParam = useCallback((name: string): string | null => {
         return searchParams.get(name) as string | null;
-    };
+    }, [searchParams])
 
-    const setQueryParam = ({ name, value }: {
+    const setQueryParam = useCallback(({ name, value }: {
         name: string;
         value: string;
     }) => {
         replaceRouter(createQueryString(name, value));
-    };
+    }, [createQueryString, replaceRouter])
 
     const deleteQueryParam = (name: string) => {
         replaceRouter(deleteQueryString(name));
     };
 
-    const setQueryParams = useCallback(({
+    const setQueryParams = ({
         params,
     }: {
         params: { name: string; value: string }[];
@@ -51,15 +56,16 @@ export default function useParams() {
             newParams.set(name, value);
         });
         replaceRouter(newParams.toString());
-    }, [searchParams, replaceRouter]);
+    }
 
-    const deleteQueryParams = useCallback((names: string[]) => {
+    const deleteQueryParams = (names: string[]) => {
         const newParams = new URLSearchParams(searchParams.toString());
         names.forEach((name) => {
             newParams.delete(name);
         });
         replaceRouter(newParams.toString());
-    }, [searchParams, replaceRouter]);
+    }
+
 
     return {
         getQueryParam,
@@ -67,5 +73,8 @@ export default function useParams() {
         deleteQueryParam,
         setQueryParams,
         deleteQueryParams,
+        getFullPathname,
+        deleteQueryString,
+        createQueryString,
     };
 }

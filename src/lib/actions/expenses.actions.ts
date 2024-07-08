@@ -3,7 +3,7 @@
 import { getMyUser } from "@/lib/services/user.services";
 import { db } from "@/lib/db";
 import { expense } from "@/lib/db/schema";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, sum } from "drizzle-orm";
 import { z } from "zod";
 
 import { createExpenseSchema } from "@/lib/schemas/expenses.schema";
@@ -76,3 +76,17 @@ export const deleteExpense = async (expenseId: number) => {
 
     }
 };
+
+
+export const getTotalExpenses = async () => {
+    try {
+        const myUser = await getMyUser()
+        const [expenses] = await db.select({
+            total: sum(expense.amount)
+        }).from(expense).where(eq(expense.accountId, myUser.defaultAccountId as number))
+        const totalExpenses = Number(expenses.total)
+        return totalExpenses
+    } catch (error) {
+        throw new Error()
+    }
+}

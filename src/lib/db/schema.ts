@@ -1,4 +1,4 @@
-import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { decimal, integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
@@ -30,7 +30,7 @@ export const session = pgTable("sessions", {
 export const expense = pgTable("expenses", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  amount: integer("amount").default(0),
+  amount: decimal("amount"),
   createdAt: timestamp("created_at", {
     withTimezone: true,
     mode: "date",
@@ -45,7 +45,7 @@ export const expense = pgTable("expenses", {
 export const income = pgTable("incomes", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  amount: integer("amount").default(0),
+  amount: decimal("amount"),
   createdAt: timestamp("created_at", {
     withTimezone: true,
     mode: "date",
@@ -67,4 +67,4 @@ export const selectIncomeSchema = createSelectSchema(income);
 export const insertIncomeSchema = createInsertSchema(income);
 
 export const selectExpenseSchema = createSelectSchema(expense);
-export const insertExpenseSchema = createInsertSchema(expense);
+export const insertExpenseSchema = createInsertSchema(expense)

@@ -32,7 +32,7 @@ export default function IncomeForm({
     resolver: zodResolver(createIncomeSchema),
     defaultValues: {
       name: initialIncome?.name ?? "",
-      amount: initialIncome?.amount ?? undefined,
+      amount: Number(initialIncome?.amount) || undefined,
     },
   });
 

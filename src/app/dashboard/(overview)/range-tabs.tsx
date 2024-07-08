@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, buttonVariants } from "@/components/ui/button";
+import useParams from "@/lib/hooks/params.hook";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
@@ -33,14 +34,30 @@ const rangeOptions: RangeOption[] = [
 ];
 
 export default function RangeTabs() {
+  const {
+    getQueryParam,
+    setQueryParam,
+    deleteQueryParam,
+  } = useParams();
   return (
-    <div className="flex flex-wrap items-center gap-2.5">
+    <div className="flex flex-wrap items-center gap-3">
       {rangeOptions.map((option) => (
         <Tab
           key={option.value}
           option={option}
-          selected={false}
-          onClick={() => {}}
+          selected={!getQueryParam("range")
+            ? option.value === "all"
+            : getQueryParam("range") === option.value}
+          onClick={() => {
+            if (option.value === "all") {
+              deleteQueryParam("range");
+            } else {
+              setQueryParam({
+                name: "range",
+                value: option.value,
+              });
+            }
+          }}
         />
       ))}
     </div>
@@ -58,7 +75,7 @@ const Tab = ({
 }) => {
   return (
     <Button
-      className={cn("relative")}
+      className={cn("relative duration-500")}
       variant={selected ? "default" : "secondary"}
       size={"sm"}
       onClick={onClick}
@@ -69,7 +86,7 @@ const Tab = ({
       {selected && (
         <motion.span
           layoutId="tab"
-          transition={{ type: "spring", duration: 0.4 }}
+          transition={{ type: "spring", duration: 0.5, bounce: 0 }}
           className={buttonVariants({
             className: "absolute inset-0 z-0",
             size: "sm",

@@ -34,13 +34,13 @@ export default function ExpenseForm({
     resolver: zodResolver(createExpenseSchema),
     defaultValues: {
       name: initialExpense?.name ?? "",
-      amount: initialExpense?.amount ?? undefined,
+      amount: Number(initialExpense?.amount) || undefined,
     },
   });
 
   const onSubmit = form.handleSubmit(async (data) => {
     try {
-      if (origin === "update" && initialExpense) {
+      if (initialExpense) {
         await updateExpense({
           expenseId: initialExpense.id,
           data,

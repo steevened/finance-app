@@ -33,7 +33,7 @@ export default async function ExpensesTable() {
             <TableCell className="font-medium">{expense.name}</TableCell>
             <TableCell>{expense.createdAt.toDateString()}</TableCell>
             <TableCell className="text-right">
-              {formatCurrency(expense.amount || 0)}
+              {formatCurrency(Number(expense.amount))}
             </TableCell>
             <TableCell className="text-right">
               <ExpenseDropdown expense={expense} />
