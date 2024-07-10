@@ -25,7 +25,7 @@ export async function createAccount(formData: FormData) {
 export async function setDefaultAccount(accountId: number) {
   const userId = await getMyUserId();
   await db.update(user).set({
-    defaultAccountId: accountId.toString(),
+    defaultAccountId: accountId,
   }).where(eq(user.id, userId));
   revalidatePath("/dashboard");
 }

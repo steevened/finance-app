@@ -17,7 +17,7 @@ export const createIncome = async (data: CreateIncome) => {
     try {
         await db.insert(income).values({
             name: data.name,
-            amount: data.amount,
+            amount: data.amount.toString(),
             createdAt: new Date(),
             accountId: myUser.defaultAccountId,
             updatedAt: new Date()
@@ -38,7 +38,7 @@ export const updateIncome = async ({
     try {
         await db.update(income).set({
             name: data.name,
-            amount: data.amount,
+            amount: data.amount?.toString(),
             updatedAt: new Date()
         }).where(eq(income.id, incomeId))
         revalidatePath("/dashboard")

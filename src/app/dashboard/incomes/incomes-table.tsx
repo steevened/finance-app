@@ -31,7 +31,7 @@ export default async function IncomesTable() {
             <TableCell className="font-medium">{income.name}</TableCell>
             <TableCell>{income.createdAt.toDateString()}</TableCell>
             <TableCell className="text-right">
-              {formatCurrency(income.amount || 0)}
+              {formatCurrency(income.amount ? parseInt(income.amount) : 0)}
             </TableCell>
             <TableCell className="text-right">
               <IncomeDropdown income={income} />

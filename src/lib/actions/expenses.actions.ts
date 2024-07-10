@@ -35,7 +35,7 @@ export const createExpense = async (data: CreateExpense) => {
         const myUser = await getMyUser()
         await db.insert(expense).values({
             name: data.name,
-            amount: data.amount,
+            amount: data.amount.toString(),
             accountId: myUser.defaultAccountId,
             createdAt: new Date(),
             updatedAt: new Date()
@@ -56,7 +56,7 @@ export const updateExpense = async ({
     try {
         await db.update(expense).set({
             name: data.name,
-            amount: data.amount,
+            amount: data.amount?.toString(),
             updatedAt: new Date()
         }).where(eq(expense.id,
             expenseId

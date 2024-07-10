@@ -23,7 +23,7 @@ async function upsertAccount() {
   if (!createdAccount) redirect("/login");
 
   await db.update(user).set({
-    defaultAccountId: createdAccount.id.toString(),
+    defaultAccountId: createdAccount.id,
   }).where(eq(
     user.id,
     createdAccount.userId,
