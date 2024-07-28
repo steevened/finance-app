@@ -5,15 +5,15 @@ import { Suspense } from "react";
 import ExpensesCardData from "./expenses-card-data";
 
 export default function TotalExpensesCard({
-  mode,
+  selected,
 }: {
-  mode?: string;
+  selected?: boolean;
 }) {
   return (
     <Card
       className={cn(
         "duration-200 transition-colors",
-        mode && mode === "spent" ? "bg-muted" : "bg-card",
+        selected ? "bg-accent" : "bg-card",
       )}
     >
       <CardHeader>

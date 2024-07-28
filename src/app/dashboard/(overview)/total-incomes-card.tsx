@@ -6,15 +6,15 @@ import { Suspense } from "react";
 import IncomesCardData from "./incomes-card-data";
 
 export default function TotalIncomesCard({
-  mode,
+  selected,
 }: {
-  mode?: string;
+  selected?: boolean;
 }) {
   return (
     <Card
       className={cn(
         "duration-200 transition-colors",
-        mode && mode === "received" ? "bg-muted" : "bg-card",
+        selected ? "bg-accent" : "bg-card",
       )}
     >
       <CardHeader>

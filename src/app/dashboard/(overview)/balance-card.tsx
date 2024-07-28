@@ -1,21 +1,20 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getBalance } from "@/lib/actions/balance.actions";
 import { cn } from "@/lib/utils";
 import { Scale } from "lucide-react";
 import { Suspense } from "react";
 import BalanceData from "./balance-data";
 
 export default function BalanceCard({
-  mode,
+  selected,
 }: {
-  mode?: string;
+  selected?: boolean;
 }) {
   return (
     <Card
       className={cn(
         "duration-200 transition-colors",
-        !mode ? "bg-muted" : "bg-card",
+        selected ? "bg-accent" : "bg-card",
       )}
     >
       <CardHeader>
