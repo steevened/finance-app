@@ -7,10 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getMyIncomes } from "@/lib/services/incomes.services";
 import { formatCurrency } from "@/lib/utils";
-
 import IncomeDropdown from "./income-dropdown";
+import { getMyIncomes } from "@/lib/actions/incomes.actions";
 
 export default async function IncomesTable() {
   const myIncomes = await getMyIncomes();
@@ -21,6 +20,7 @@ export default async function IncomesTable() {
         <TableRow>
           <TableHead>Name</TableHead>
           <TableHead>Created at</TableHead>
+          <TableHead>Due</TableHead>
           <TableHead className="text-right">Amount</TableHead>
           <TableHead></TableHead>
         </TableRow>
@@ -30,6 +30,9 @@ export default async function IncomesTable() {
           <TableRow key={income.id}>
             <TableCell className="font-medium">{income.name}</TableCell>
             <TableCell>{income.createdAt.toDateString()}</TableCell>
+            <TableCell>
+              {income?.due?.toDateString() || new Date().toDateString()}
+            </TableCell>
             <TableCell className="text-right">
               {formatCurrency(income.amount ? parseInt(income.amount) : 0)}
             </TableCell>

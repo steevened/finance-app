@@ -13,10 +13,6 @@ export default function Home({
 }: {
   searchParams: { [key: string]: string };
 }) {
-  const mode = searchParams.mode;
-
-  console.log(mode);
-
   return (
     <div className="grid gap-6 @container">
       <div className="flex items-center justify-between">
@@ -42,19 +38,19 @@ export default function Home({
 
       <div className="flex flex-col @xl:flex-row gap-3">
         <div className="flex-1">
-          <CardLinkContainer type="balance">
-            <BalanceCard selected={!mode} />
-          </CardLinkContainer>
+          {/* <CardLinkContainer type="balance"> */}
+          <BalanceCard />
+          {/* </CardLinkContainer> */}
         </div>
         <div className="flex-1">
-          <CardLinkContainer type="spent">
-            <TotalExpensesCard selected={mode === "spent"} />
-          </CardLinkContainer>
+          {/* <CardLinkContainer type="spent"> */}
+          <TotalExpensesCard />
+          {/* </CardLinkContainer> */}
         </div>
         <div className="flex-1">
-          <CardLinkContainer type="received">
-            <TotalIncomesCard selected={mode === "received"} />
-          </CardLinkContainer>
+          {/* <CardLinkContainer type="received"> */}
+          <TotalIncomesCard />
+          {/* </CardLinkContainer> */}
         </div>
       </div>
 

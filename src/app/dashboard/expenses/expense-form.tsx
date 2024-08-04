@@ -16,7 +16,16 @@ import { Expense } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { z } from "zod";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 export default function ExpenseForm({
   onCancel,
@@ -35,6 +44,7 @@ export default function ExpenseForm({
     defaultValues: {
       name: initialExpense?.name ?? "",
       amount: Number(initialExpense?.amount) || undefined,
+      due: initialExpense?.due as Date,
     },
   });
 
@@ -66,10 +76,7 @@ export default function ExpenseForm({
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Enter expense name"
-                  {...field}
-                />
+                <Input placeholder="Enter expense name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -83,11 +90,48 @@ export default function ExpenseForm({
             <FormItem>
               <FormLabel>Amount</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Enter expense amount"
-                />
+                <Input {...field} placeholder="Enter expense amount" />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="due"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Due</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+
               <FormMessage />
             </FormItem>
           )}
@@ -97,8 +141,10 @@ export default function ExpenseForm({
           <Button
             isLoading={form.formState.isSubmitting}
             loadingText={initialExpense ? "Updating expense" : "Adding expense"}
-            disabled={form.formState.isSubmitting ||
-              (initialExpense && !form.formState.isDirty)}
+            disabled={
+              form.formState.isSubmitting ||
+              (initialExpense && !form.formState.isDirty)
+            }
             type="submit"
           >
             Continue

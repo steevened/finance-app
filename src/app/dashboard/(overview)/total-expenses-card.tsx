@@ -12,13 +12,13 @@ export default function TotalExpensesCard({
   return (
     <Card
       className={cn(
-        "duration-200 transition-colors",
-        selected ? "bg-accent" : "bg-card",
+        "duration-200 transition-colors bg-background"
+        // selected ? "bg-accent" : "bg-card",
       )}
     >
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <span>
+          <span className="text-red-500">
             <ArrowDown className="size-5" />
           </span>
           Spent

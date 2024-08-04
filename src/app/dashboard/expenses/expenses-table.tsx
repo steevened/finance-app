@@ -23,6 +23,7 @@ export default async function ExpensesTable() {
         <TableRow>
           <TableHead>Name</TableHead>
           <TableHead>Created at</TableHead>
+          <TableHead>Due</TableHead>
           <TableHead className="text-right">Amount</TableHead>
           <TableHead></TableHead>
         </TableRow>
@@ -32,6 +33,10 @@ export default async function ExpensesTable() {
           <TableRow key={expense.id}>
             <TableCell className="font-medium">{expense.name}</TableCell>
             <TableCell>{expense.createdAt.toDateString()}</TableCell>
+            <TableCell>
+              {expense?.due?.toDateString() || new Date().toDateString()}
+            </TableCell>
+
             <TableCell className="text-right">
               {formatCurrency(Number(expense.amount))}
             </TableCell>

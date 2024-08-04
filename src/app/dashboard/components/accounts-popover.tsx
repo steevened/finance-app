@@ -32,10 +32,8 @@ export default function AccountsPopover({
   const [isAddAcccountModalOpen, setIsAddAccountModalOpen] = useState(false);
 
   const defaultAccount = useCallback(() => {
-    return myAccounts.find((a) =>
-      user?.defaultAccountId && a.id === +user?.defaultAccountId
-    );
-  }, [myAccounts, user]);
+    return myAccounts.find((a) => a.isDefault);
+  }, [myAccounts]);
 
   return (
     <>
@@ -65,9 +63,7 @@ export default function AccountsPopover({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-60" align="start">
-          <DropdownMenuLabel>
-            Accounts ({myAccounts.length})
-          </DropdownMenuLabel>
+          <DropdownMenuLabel>Accounts ({myAccounts.length})</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             {myAccounts.map((account) => (
@@ -76,13 +72,8 @@ export default function AccountsPopover({
                 className="justify-between cursor-pointer"
                 onClick={async () => await setDefaultAccount(account.id)}
               >
-                <span>
-                  {account.name}
-                </span>
-                {user.defaultAccountId &&
-                    account.id === +user.defaultAccountId
-                  ? <CheckIcon />
-                  : null}
+                <span>{account.name}</span>
+                {account.id === defaultAccount()?.id ? <CheckIcon /> : null}
               </DropdownMenuItem>
             ))}
           </DropdownMenuGroup>

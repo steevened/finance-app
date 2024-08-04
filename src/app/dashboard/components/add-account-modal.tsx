@@ -8,7 +8,6 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,16 +21,11 @@ export default function AddAccountModal({
   onOpenChange: (open: boolean) => void;
 }) {
   return (
-    <Drawer
-      open={open}
-      onOpenChange={onOpenChange}
-    >
+    <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
-            <DrawerTitle>
-              Create a new account
-            </DrawerTitle>
+            <DrawerTitle>Create a new account</DrawerTitle>
             <DrawerDescription>
               Press the button below to continue.
             </DrawerDescription>

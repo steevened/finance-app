@@ -5,21 +5,17 @@ import { ArrowUp } from "lucide-react";
 import { Suspense } from "react";
 import IncomesCardData from "./incomes-card-data";
 
-export default function TotalIncomesCard({
-  selected,
-}: {
-  selected?: boolean;
-}) {
+export default function TotalIncomesCard({ selected }: { selected?: boolean }) {
   return (
     <Card
       className={cn(
-        "duration-200 transition-colors",
-        selected ? "bg-accent" : "bg-card",
+        "duration-200 transition-colors bg-background"
+        // selected ? "bg-accent" : "bg-card",
       )}
     >
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <span>
+          <span className="text-green-500">
             <ArrowUp className="size-5" />
           </span>
           Received
