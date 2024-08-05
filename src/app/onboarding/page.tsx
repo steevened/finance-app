@@ -1,41 +1,20 @@
-import { db, validateRequest } from "@/lib/db";
-import { account, user } from "@/lib/db/schema";
-import { getMyAccounts } from "@/lib/services/account.services";
-import { eq } from "drizzle-orm";
+import { upsertAccount } from "@/lib/actions/account.actions";
+import { validateRequest } from "@/lib/db";
+
 import { redirect } from "next/navigation";
 
-async function upsertAccount() {
+async function upsertAccountAndRedirect() {
   const { user: userAuth } = await validateRequest();
-
   if (!userAuth) redirect("/login");
-  const accounts = await getMyAccounts();
-  if (accounts.length > 0) redirect("/dashboard");
+  const upserted = await upsertAccount();
 
-  const [createdAccount] = await db.insert(account).values({
-    name: userAuth.username,
-    userId: userAuth.id,
-  }).returning({
-    id: account.id,
-    name: account.name,
-    userId: account.userId,
-  });
-
-  if (!createdAccount) redirect("/login");
-
-  await db.update(user).set({
-    defaultAccountId: createdAccount.id,
-  }).where(eq(
-    user.id,
-    createdAccount.userId,
-  ));
+  if (!upserted) redirect("/login");
   redirect("/dashboard");
 }
 
 export default async function Page() {
-  await upsertAccount();
+  await upsertAccountAndRedirect();
   return (
-    <div className="h-screen flex items-center justify-center">
-      Loading...
-    </div>
+    <div className="h-screen flex items-center justify-center">Loading...</div>
   );
 }

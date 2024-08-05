@@ -1,8 +1,10 @@
 import Aside from "./components/aside";
 import Header from "./components/header";
-export default async function Layout(
-  { children }: { children: React.ReactNode },
-) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div>
       <div className="sticky top-0 z-40 lg:hidden bg-background">

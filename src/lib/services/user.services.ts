@@ -5,10 +5,18 @@ import { redirect } from "next/navigation";
 import { getMyUserId } from "./auth.services";
 
 export async function getMyUser() {
-    const userId = await getMyUserId()
-    const userAuth = await db.select().from(user).where(eq(user.id, userId)).limit(0)
-    if (!userAuth || userAuth.length === 0) {
-        redirect('/login')
-    }
-    return userAuth[0]
+  // try {
+  const userId = await getMyUserId();
+  const userAuth = await db
+    .select()
+    .from(user)
+    .where(eq(user.id, userId))
+    .limit(0);
+  if (!userAuth || userAuth.length === 0) {
+    redirect("/login");
+  }
+  return userAuth[0];
+  // } catch (error) {
+  //   throw new Error("User not logged");
+  // }
 }

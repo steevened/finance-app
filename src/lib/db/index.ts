@@ -10,7 +10,10 @@ import { cookies } from "next/headers";
 
 export const sql = neon(process.env.DATABASE_URL!);
 export const db = drizzle(sql, { schema });
-export const github = new GitHub(process.env.GITHUB_CLIENT_ID!, process.env.GITHUB_CLIENT_SECRET!);
+export const github = new GitHub(
+  process.env.GITHUB_CLIENT_ID!,
+  process.env.GITHUB_CLIENT_SECRET!
+);
 
 export const adapter = new DrizzlePostgreSQLAdapter(
   db,
@@ -46,31 +49,39 @@ interface DatabaseUserAttributes {
   github_id: string;
 }
 
-
 export const validateRequest = cache(
-  async (): Promise<{ user: User; session: Session } | { user: null; session: null }> => {
-    const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null
+  async (): Promise<
+    { user: User; session: Session } | { user: null; session: null }
+  > => {
+    const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
     if (!sessionId) {
       return {
         user: null,
-        session: null
-      }
+        session: null,
+      };
     }
 
-    const result = await lucia.validateSession(sessionId)
+    const result = await lucia.validateSession(sessionId);
 
-    try {
-      if (result.session && result.session.fresh) {
-        const sessionCookien = lucia.createSessionCookie(result.session.id)
-        cookies().set(sessionCookien.name, sessionCookien.value, sessionCookien.attributes)
+    // try {
+    if (result.session && result.session.fresh) {
+      const sessionCookien = lucia.createSessionCookie(result.session.id);
+      cookies().set(
+        sessionCookien.name,
+        sessionCookien.value,
+        sessionCookien.attributes
+      );
+    }
+    if (!result.session) {
+      const sessionCookie = lucia.createBlankSessionCookie();
+      cookies().set(
+        sessionCookie.name,
+        sessionCookie.value,
+        sessionCookie.attributes
+      );
+    }
+    // } catch { }
 
-      }
-      if (!result.session) {
-        const sessionCookie = lucia.createBlankSessionCookie()
-        cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
-      }
-    } catch { }
-
-    return result
+    return result;
   }
-)
+);

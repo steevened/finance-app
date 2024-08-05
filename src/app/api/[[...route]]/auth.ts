@@ -1,5 +1,5 @@
 import { db, github, lucia } from "@/lib/db";
-import { account, user } from "@/lib/db/schema";
+import { user } from "@/lib/db/schema";
 import { generateState, OAuth2RequestError } from "arctic";
 import { eq } from "drizzle-orm";
 import { Hono } from "hono";
@@ -43,10 +43,7 @@ const app = new Hono()
       const [existingUser] = await db
         .select()
         .from(user)
-        .where(eq(
-          user.github_id,
-          githubUser.id,
-        ))
+        .where(eq(user.github_id, githubUser.id))
         .limit(1);
 
       if (existingUser) {
@@ -56,10 +53,8 @@ const app = new Hono()
         cookies().set(
           sessionCookie.name,
           sessionCookie.value,
-          sessionCookie.attributes,
+          sessionCookie.attributes
         );
-
-
 
         return new Response(null, {
           status: 302,
@@ -71,20 +66,18 @@ const app = new Hono()
 
       const userId = generateIdFromEntropySize(10);
 
-      await db
-        .insert(user)
-        .values({
-          id: userId,
-          username: githubUser.login,
-          github_id: githubUser.id,
-        });
+      await db.insert(user).values({
+        id: userId,
+        username: githubUser.login,
+        github_id: githubUser.id,
+      });
 
       const session = await lucia.createSession(userId, {});
       const sessionCookie = lucia.createSessionCookie(session.id);
       cookies().set(
         sessionCookie.name,
         sessionCookie.value,
-        sessionCookie.attributes,
+        sessionCookie.attributes
       );
       return new Response(null, {
         status: 302,

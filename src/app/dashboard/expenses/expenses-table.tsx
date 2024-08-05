@@ -8,11 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getMyExpenses } from "@/lib/actions/expenses.actions";
-import { getMyIncomes } from "@/lib/services/incomes.services";
 import { formatCurrency } from "@/lib/utils";
 import ExpenseDropdown from "./expense.dropdown";
-
-//   import IncomeDropdown from "./income-dropdown";
 
 export default async function ExpensesTable() {
   const myExpenses = await getMyExpenses();

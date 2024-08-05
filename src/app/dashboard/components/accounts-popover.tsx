@@ -11,7 +11,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getMyAccounts } from "@/lib/services/account.services";
 import { getMyUser } from "@/lib/services/user.services";
 import {
   CaretRightIcon,
@@ -19,7 +18,10 @@ import {
   CheckIcon,
 } from "@radix-ui/react-icons";
 import AddAccountModal from "./add-account-modal";
-import { setDefaultAccount } from "@/lib/actions/account.actions";
+import {
+  getMyAccounts,
+  setDefaultAccount,
+} from "@/lib/actions/account.actions";
 import { useCallback, useState } from "react";
 
 export default function AccountsPopover({

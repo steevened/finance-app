@@ -6,29 +6,29 @@ import { z } from "zod";
 import { db } from "../db";
 import { income } from "../db/schema";
 import { createIncomeSchema } from "../schemas/incomes.schema";
-import { getMyDefaultAccount } from "../services/account.services";
+import { getMyDefaultAccount } from "./account.actions";
 
 type CreateIncome = z.infer<typeof createIncomeSchema>;
 type UpdateIncome = Partial<CreateIncome>;
 
 export const getMyIncomes = async () => {
-  try {
-    const myDefaultAccount = await getMyDefaultAccount();
+  // try {
+  const myDefaultAccount = await getMyDefaultAccount();
 
-    return await db
-      .select({
-        id: income.id,
-        name: income.name,
-        amount: income.amount,
-        createdAt: income.createdAt,
-        due: income.due,
-      })
-      .from(income)
-      .where(eq(income.accountId, myDefaultAccount.id))
-      .orderBy(desc(income.createdAt));
-  } catch (error) {
-    throw error;
-  }
+  return await db
+    .select({
+      id: income.id,
+      name: income.name,
+      amount: income.amount,
+      createdAt: income.createdAt,
+      due: income.due,
+    })
+    .from(income)
+    .where(eq(income.accountId, myDefaultAccount.id))
+    .orderBy(desc(income.createdAt));
+  // } catch (error) {
+  //   throw error;
+  // }
 };
 
 export const createIncome = async (data: CreateIncome) => {
@@ -91,16 +91,16 @@ export const deleteIncome = async (incomeId: number) => {
 
 export const getTotalIncomes = async () => {
   const myDefaultAccount = await getMyDefaultAccount();
-  try {
-    const [total] = await db
-      .select({
-        total: sum(income.amount),
-      })
-      .from(income)
-      .where(eq(income.accountId, myDefaultAccount.id));
-    const totalIncome = Number(total.total);
-    return totalIncome;
-  } catch (error) {
-    throw new Error();
-  }
+  // try {
+  const [total] = await db
+    .select({
+      total: sum(income.amount),
+    })
+    .from(income)
+    .where(eq(income.accountId, myDefaultAccount.id));
+  const totalIncome = Number(total.total);
+  return totalIncome;
+  // } catch (error) {
+  //   throw new Error();
+  // }
 };

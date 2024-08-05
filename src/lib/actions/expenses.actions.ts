@@ -8,29 +8,25 @@ import { z } from "zod";
 
 import { createExpenseSchema } from "@/lib/schemas/expenses.schema";
 import { revalidatePath } from "next/cache";
-import { getMyDefaultAccount } from "../services/account.services";
+import { getMyDefaultAccount } from "./account.actions";
 
 type CreateExpense = z.infer<typeof createExpenseSchema>;
 type UpdateExpense = Partial<CreateExpense>;
 
 export const getMyExpenses = async () => {
-  try {
-    const myDefaultAccount = await getMyDefaultAccount();
+  const myDefaultAccount = await getMyDefaultAccount();
 
-    return await db
-      .select({
-        id: expense.id,
-        name: expense.name,
-        amount: expense.amount,
-        createdAt: expense.createdAt,
-        due: expense.due,
-      })
-      .from(expense)
-      .where(eq(expense.accountId, myDefaultAccount.id))
-      .orderBy(desc(expense.createdAt));
-  } catch (error) {
-    throw new Error(error as string);
-  }
+  return await db
+    .select({
+      id: expense.id,
+      name: expense.name,
+      amount: expense.amount,
+      createdAt: expense.createdAt,
+      due: expense.due,
+    })
+    .from(expense)
+    .where(eq(expense.accountId, myDefaultAccount.id))
+    .orderBy(desc(expense.createdAt));
 };
 
 export const createExpense = async (data: CreateExpense) => {
@@ -97,17 +93,17 @@ export const deleteExpense = async (expenseId: number) => {
 };
 
 export const getTotalExpenses = async () => {
-  try {
-    const myDefaultAccount = await getMyDefaultAccount();
-    const [expenses] = await db
-      .select({
-        total: sum(expense.amount),
-      })
-      .from(expense)
-      .where(eq(expense.accountId, myDefaultAccount.id));
-    const totalExpenses = Number(expenses.total);
-    return totalExpenses;
-  } catch (error) {
-    throw new Error();
-  }
+  // try {
+  const myDefaultAccount = await getMyDefaultAccount();
+  const [expenses] = await db
+    .select({
+      total: sum(expense.amount),
+    })
+    .from(expense)
+    .where(eq(expense.accountId, myDefaultAccount.id));
+  const totalExpenses = Number(expenses.total);
+  return totalExpenses;
+  // } catch (error) {
+  //   throw new Error();
+  // }
 };

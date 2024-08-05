@@ -1,6 +1,5 @@
 import AccountsPopoverProvider from "./accounts-popover-provider";
 import MobileAsideSheet from "./mobile-aside-sheet";
-import UserMenu from "./user-menu";
 import UserMenuProvider from "./user-menu-provider";
 
 export default async function Header() {
