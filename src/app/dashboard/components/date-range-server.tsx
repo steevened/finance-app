@@ -4,5 +4,5 @@ import { getMyDefaultAccount } from "@/lib/actions/account.actions";
 
 export default async function DateRangeServer({}) {
   const account = await getMyDefaultAccount();
-  return <DateRangePicker from={account.createdAt?.toString()} />;
+  return <DateRangePicker initialFrom={account?.createdAt?.toString()} />;
 }

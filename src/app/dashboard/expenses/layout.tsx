@@ -1,20 +1,15 @@
+import { Separator } from "@/components/ui/separator";
 import ExpenseDialog from "./expense-dialog";
 
-export default function Layout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="grid gap-6">
-      <div className="flex justify-between">
-        <h2>Expenses</h2>
+    <div className="grid gap-3">
+      <div className="flex justify-between items-center">
+        <h3>Expenses</h3>
         <ExpenseDialog origin="create" />
       </div>
-      <div className="h-[1px] bg-border" />
-      <div>
-        {children}
-      </div>
+      <Separator />
+      <div>{children}</div>
     </div>
   );
 }

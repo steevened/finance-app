@@ -6,6 +6,7 @@ import { account, user } from "../db/schema";
 import { revalidatePath } from "next/cache";
 import { getMyUserId } from "../services/auth.services";
 import { getMyUser } from "../services/user.services";
+import { redirect } from "next/navigation";
 
 export async function createAccount(
   prevState: {
@@ -44,18 +45,8 @@ export async function createAccount(
 }
 
 export async function setDefaultAccount(accountId: number) {
-  // try {
   const userId = await getMyUserId();
   const defaultAccount = await getMyDefaultAccount();
-
-  // if (!defaultAccount) {
-  //   await db
-  //     .update(account)
-  //     .set({
-  //       isDefault: true,
-  //     })
-  //     .where(and(eq(account.userId, userId), eq(account.id, accountId)));
-  // }
 
   if (defaultAccount.id === accountId) return;
 
@@ -84,6 +75,7 @@ export async function setDefaultAccount(accountId: number) {
     .where(eq(account.id, accountToChange.id));
 
   revalidatePath("/dashboard");
+  redirect("/dashboard");
 }
 
 export async function getMyAccounts() {

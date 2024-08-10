@@ -7,7 +7,7 @@ export default function Aside() {
   return (
     <aside className="p-3 h-full">
       <div className="flex flex-col justify-between h-full">
-        <div className="grid gap-3 w-full">
+        <div className="grid gap-1.5 w-full">
           <AccountsPopoverProvider />
           <Separator />
           <NavMenu />

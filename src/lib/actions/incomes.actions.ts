@@ -34,8 +34,8 @@ export const getMyIncomes = async (params?: { from?: string; to?: string }) => {
     .where(
       and(
         eq(income.accountId, myDefaultAccount.id),
-        from ? gt(income.createdAt, new Date(from)) : undefined,
-        to ? lt(income.createdAt, new Date(to)) : undefined
+        from ? gt(income.due, new Date(from)) : undefined,
+        to ? lt(income.due, new Date(to)) : undefined
       )
     )
     .orderBy(desc(income.createdAt));

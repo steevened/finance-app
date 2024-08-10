@@ -13,46 +13,34 @@ import useParams from "@/lib/hooks/params.hook";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
-import { parseAsString, useQueryStates } from "nuqs";
 import * as React from "react";
 import { DateRange } from "react-day-picker";
 
 const formatShape = "LLL dd, y";
 const queryFormatShape = "MM/dd/yyyy";
 
+function formatDate(date?: string | null): string {
+  if (!date) return format(new Date(), formatShape);
+  return format(date, formatShape);
+}
+
 export function DateRangePicker({
   className,
-  from: fromDate,
+  initialFrom,
 }: React.HTMLAttributes<HTMLDivElement> & {
-  from?: string;
+  initialFrom?: string;
 }) {
   const [open, setOpen] = React.useState(false);
   const [isLoading, startTransition] = React.useTransition();
 
-  const { getQueryParam, setQueryParam, setQueryParams } = useParams();
+  const { getQueryParam, setQueryParams } = useParams();
 
   const from = getQueryParam("from");
   const to = getQueryParam("to");
 
-  //   const [dateQuery, setDateQuery] = useQueryStates({
-  //     from: parseAsString
-  //       .withDefault(format(new Date(fromDate ? fromDate : ""), queryFormatShape))
-  //       .withOptions({
-  //         startTransition,
-  //         shallow: false,
-  //       }),
-  //     to: parseAsString
-  //       .withDefault(format(new Date(), queryFormatShape))
-  //       .withOptions({
-  //         startTransition,
-  //         shallow: false,
-  //       }),
-  //   });
-  //   const { from, to } = dateQuery;
-
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(from || ""),
-    to: new Date(to || ""),
+    from: new Date(formatDate(initialFrom || from)),
+    to: new Date(formatDate(to)),
   });
 
   const readableDate = React.useMemo((): string => {
@@ -70,7 +58,7 @@ export function DateRangePicker({
 
     if (sameDayString == toDayString) return "Today";
 
-    return `${fromDateString} - ${toDateString}`;
+    return `${fromDateString} - ${toDateString}` || "Invalid time value";
   }, [from, date, to]);
 
   return (
@@ -78,8 +66,11 @@ export function DateRangePicker({
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
+            isLoading={isLoading}
+            loadingText="Loading..."
+            disabled={isLoading}
             id="date"
-            variant={"ghost"}
+            variant={"outline"}
             className={cn(
               "w-min justify-end text-right font-normal",
               !date && "text-muted-foreground"
@@ -89,7 +80,7 @@ export function DateRangePicker({
             {isLoading ? <Skeleton className="h-9 w-40" /> : readableDate}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="end">
+        <PopoverContent className="w-auto p-0" align="start">
           <div className="">
             <Calendar
               initialFocus
@@ -98,25 +89,47 @@ export function DateRangePicker({
               selected={date}
               onSelect={setDate}
               disabled={(date) =>
-                fromDate ? date < new Date(fromDate) : false
+                initialFrom ? date < new Date(initialFrom) : false
               }
               numberOfMonths={2}
             />
             <Separator />
             <div className="flex items-center justify-between p-3">
               <span className="text-muted-foreground text-sm">
-                {date?.from ? format(date.from, formatShape) : ""}{" "}
-                {date?.to ? `- ${format(date.to, formatShape)}` : ""}
+                {/* {date?.from ? format(date.from, formatShape) : ""}{" "}
+                {date?.to ? `- ${format(date.to, formatShape)}` : ""} */}
+                {date?.from
+                  ? formatDate(date.from.toString()) +
+                    (date?.to ? ` - ${formatDate(date.to.toString())}` : "")
+                  : `${readableDate}`}
               </span>
               <div className="flex gap-1.5">
                 <Button onClick={() => setOpen(false)} variant={"outline"}>
                   Cancel
                 </Button>
                 <Button
+                  isLoading={isLoading}
+                  loadingText="Applying..."
+                  disabled={isLoading}
                   onClick={() => {
-                    if (!date?.from) return;
-                    if (!date.to) {
-                      setOpen(false);
+                    startTransition(() => {
+                      if (!date?.from) return;
+                      if (!date.to) {
+                        setOpen(false);
+                        return setQueryParams({
+                          params: [
+                            {
+                              name: "from",
+                              value: format(date.from, queryFormatShape),
+                            },
+                            {
+                              name: "to",
+                              value: format(date.from, queryFormatShape),
+                            },
+                          ],
+                        });
+                      }
+
                       setQueryParams({
                         params: [
                           {
@@ -125,34 +138,13 @@ export function DateRangePicker({
                           },
                           {
                             name: "to",
-                            value: format(date.from, queryFormatShape),
+                            value: format(date.to, queryFormatShape),
                           },
                         ],
                       });
-                      //   return setDateQuery({
-                      //     from: format(date.from, queryFormatShape),
-                      //     to: format(date.from, queryFormatShape),
-                      //   });
-                    }
 
-                    setQueryParams({
-                      params: [
-                        {
-                          name: "from",
-                          value: format(date.from, queryFormatShape),
-                        },
-                        {
-                          name: "to",
-                          value: format(date.to, queryFormatShape),
-                        },
-                      ],
+                      setOpen(false);
                     });
-
-                    // setDateQuery({
-                    //   from: format(date.from, queryFormatShape),
-                    //   to: format(date.to, queryFormatShape),
-                    // });
-                    setOpen(false);
                   }}
                 >
                   Apply

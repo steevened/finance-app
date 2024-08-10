@@ -7,7 +7,7 @@ export default async function AccountsPopoverProvider() {
   const myAccounts = await getMyAccounts();
 
   return (
-    <div className="truncate p-0.5">
+    <div className="truncate">
       <AccountsPopover user={user} myAccounts={myAccounts} />
     </div>
   );

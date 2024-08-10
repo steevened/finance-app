@@ -15,7 +15,7 @@ export default async function Layout({
         <div className="sticky top-0 hidden lg:block lg:col-span-3 xl:col-span-2 h-screen">
           <Aside />
         </div>
-        <main className="p-6 lg:col-span-9 xl:col-span-10 col-span-12 bg-muted/20 m-3 lg:ml-0 border rounded-lg">
+        <main className="p-3 lg:col-span-9 xl:col-span-10 col-span-12 bg-muted/20 m-3 lg:ml-0 border rounded-lg">
           {children}
         </main>
       </div>

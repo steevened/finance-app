@@ -1,8 +1,8 @@
 import { dateParamsCache, searchParamsCache } from "@/lib/server";
 import IncomesTable from "./incomes-table";
 import { Suspense } from "react";
-import DateRangeServer from "./date-range-server";
 import { Skeleton } from "@/components/ui/skeleton";
+import DateRangeServer from "../components/date-range-server";
 
 export default function Page({
   searchParams,
@@ -12,9 +12,9 @@ export default function Page({
     to?: string;
   };
 }) {
-  const { from, to } = dateParamsCache.parse(searchParams);
+  const { from, to } = searchParams;
   return (
-    <>
+    <div className="grid gap-3">
       <Suspense fallback={<Skeleton className="h-9 w-40" />}>
         <DateRangeServer />
       </Suspense>
@@ -24,6 +24,6 @@ export default function Page({
           to: to ?? "",
         }}
       />
-    </>
+    </div>
   );
 }
