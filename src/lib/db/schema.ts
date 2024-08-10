@@ -19,7 +19,7 @@ export const account = pgTable("accounts", {
     .references(() => user.id),
   isDefault: boolean("is_default").default(false),
   createdAt: timestamp("created_at", {
-    withTimezone: true,
+    withTimezone: false,
     mode: "date",
   }).default(sql`now()`),
 });
@@ -37,7 +37,7 @@ export const session = pgTable("sessions", {
     .notNull()
     .references(() => user.id),
   expiresAt: timestamp("expires_at", {
-    withTimezone: true,
+    withTimezone: false,
     mode: "date",
   }).notNull(),
 });
@@ -47,18 +47,18 @@ export const expense = pgTable("expenses", {
   name: text("name").notNull(),
   amount: decimal("amount"),
   createdAt: timestamp("created_at", {
-    withTimezone: true,
+    withTimezone: false,
     mode: "date",
   }).notNull(),
   updatedAt: timestamp("updated_at", {
-    withTimezone: true,
+    withTimezone: false,
     mode: "date",
   }),
   accountId: integer("account_id").references(() => account.id, {
     onDelete: "cascade",
   }),
   due: timestamp("due", {
-    withTimezone: true,
+    withTimezone: false,
     mode: "date",
   }),
 });
@@ -68,18 +68,18 @@ export const income = pgTable("incomes", {
   name: text("name").notNull(),
   amount: decimal("amount"),
   createdAt: timestamp("created_at", {
-    withTimezone: true,
+    withTimezone: false,
     mode: "date",
   }).notNull(),
   updatedAt: timestamp("updated_at", {
-    withTimezone: true,
+    withTimezone: false,
     mode: "date",
   }),
   accountId: integer("account_id").references(() => account.id, {
     onDelete: "cascade",
   }),
   due: timestamp("due", {
-    withTimezone: true,
+    withTimezone: false,
     mode: "date",
   }),
 });

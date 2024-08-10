@@ -3,10 +3,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import BalanceCard from "./balance-card";
 import BalanceResumen from "./balance-resumen";
-import CardLinkContainer from "./card-link-container";
 import TotalExpensesCard from "./total-expenses-card";
 import TotalIncomesCard from "./total-incomes-card";
-import UserGreeting from "./user-greeting";
 
 export default function Home({
   searchParams,
@@ -16,13 +14,10 @@ export default function Home({
   return (
     <div className="grid gap-6 @container">
       <div className="flex items-center justify-between">
-        <Suspense fallback={<Skeleton className="w-40 h-7" />}>
-          <UserGreeting />
-        </Suspense>
         <div>
           <Suspense
             fallback={
-              <div className="flex flex-col gap-1 items-end">
+              <div className="flex flex-col gap-1">
                 <Skeleton className="w-12 h-5" />
                 <Skeleton className="w-24 h-8" />
               </div>

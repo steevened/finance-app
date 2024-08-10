@@ -10,9 +10,25 @@ import {
 import { formatCurrency } from "@/lib/utils";
 import IncomeDropdown from "./income-dropdown";
 import { getMyIncomes } from "@/lib/actions/incomes.actions";
+// import { dateParamsCache, searchParamsCache } from "@/lib/server";
+import { createSearchParamsCache, parseAsString } from "nuqs/server"; // Note: import from 'nuqs/server' to avoid the "use client" directive
 
-export default async function IncomesTable() {
-  const myIncomes = await getMyIncomes();
+const dateParamsCache = createSearchParamsCache({
+  from: parseAsString.withDefault(""),
+  to: parseAsString.withDefault(""),
+});
+
+export default async function IncomesTable({
+  searchParams,
+}: {
+  searchParams: {
+    from?: string;
+    to?: string;
+  };
+}) {
+  console.log("rerrunning server");
+  const parsedParams = dateParamsCache.parse(searchParams);
+  const myIncomes = await getMyIncomes(parsedParams);
   return (
     <Table>
       <TableCaption>A list of your recent incomes.</TableCaption>
