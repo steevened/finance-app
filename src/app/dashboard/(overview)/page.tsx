@@ -9,11 +9,14 @@ import TotalIncomesCard from "./total-incomes-card";
 export default function Home({
   searchParams,
 }: {
-  searchParams: { [key: string]: string };
+  searchParams: {
+    from?: string;
+    to?: string;
+  };
 }) {
   return (
-    <div className="grid gap-6 @container">
-      <div className="flex items-center justify-between">
+    <div className="grid gap-3 @container">
+      {/* <div className="flex items-center justify-between">
         <div>
           <Suspense
             fallback={
@@ -23,33 +26,23 @@ export default function Home({
               </div>
             }
           >
-            <BalanceResumen />
+            <BalanceResumen {...searchParams} />
           </Suspense>
         </div>
       </div>
-      <Separator />
-
-      {/* <RangeTabs /> */}
+      <Separator /> */}
 
       <div className="flex flex-col @xl:flex-row gap-3">
         <div className="flex-1">
-          {/* <CardLinkContainer type="balance"> */}
-          <BalanceCard />
-          {/* </CardLinkContainer> */}
+          <BalanceCard {...searchParams} />
         </div>
         <div className="flex-1">
-          {/* <CardLinkContainer type="spent"> */}
-          <TotalExpensesCard />
-          {/* </CardLinkContainer> */}
+          <TotalExpensesCard {...searchParams} />
         </div>
         <div className="flex-1">
-          {/* <CardLinkContainer type="received"> */}
-          <TotalIncomesCard />
-          {/* </CardLinkContainer> */}
+          <TotalIncomesCard {...searchParams} />
         </div>
       </div>
-
-      {/* <BalanceChart /> */}
     </div>
   );
 }

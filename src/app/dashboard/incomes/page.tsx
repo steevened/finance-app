@@ -1,8 +1,7 @@
-import { dateParamsCache, searchParamsCache } from "@/lib/server";
-import IncomesTable from "./incomes-table";
-import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Suspense } from "react";
 import DateRangeServer from "../components/date-range-server";
+import IncomesTable from "./incomes-table";
 
 export default function Page({
   searchParams,

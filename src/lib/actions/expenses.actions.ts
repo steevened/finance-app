@@ -2,19 +2,28 @@
 
 import { getMyUser } from "@/lib/services/user.services";
 import { db } from "@/lib/db";
-import { expense } from "@/lib/db/schema";
-import { and, desc, eq, sum } from "drizzle-orm";
+import { expense, income } from "@/lib/db/schema";
+import { and, desc, eq, gt, gte, lt, sum } from "drizzle-orm";
 import { z } from "zod";
 
 import { createExpenseSchema } from "@/lib/schemas/expenses.schema";
 import { revalidatePath } from "next/cache";
 import { getMyDefaultAccount } from "./account.actions";
+import { extendsDateRange } from "../utils";
 
 type CreateExpense = z.infer<typeof createExpenseSchema>;
 type UpdateExpense = Partial<CreateExpense>;
 
-export const getMyExpenses = async () => {
+export const getMyExpenses = async (searchParams?: {
+  from?: string;
+  to?: string;
+}) => {
   const myDefaultAccount = await getMyDefaultAccount();
+
+  const { from, to } = extendsDateRange({
+    from: searchParams?.from as string,
+    to: searchParams?.to as string,
+  });
 
   return await db
     .select({
@@ -25,7 +34,13 @@ export const getMyExpenses = async () => {
       due: expense.due,
     })
     .from(expense)
-    .where(eq(expense.accountId, myDefaultAccount.id))
+    .where(
+      and(
+        eq(expense.accountId, myDefaultAccount.id),
+        from ? gt(expense.due, new Date(from)) : undefined,
+        to ? lt(expense.due, new Date(to)) : undefined
+      )
+    )
     .orderBy(desc(expense.createdAt));
 };
 
@@ -92,15 +107,28 @@ export const deleteExpense = async (expenseId: number) => {
   }
 };
 
-export const getTotalExpenses = async () => {
-  // try {
+export const getTotalExpenses = async (searchParams?: {
+  from?: string;
+  to?: string;
+}) => {
+  const { from, to } = extendsDateRange({
+    from: searchParams?.from as string,
+    to: searchParams?.to as string,
+  });
+
   const myDefaultAccount = await getMyDefaultAccount();
   const [expenses] = await db
     .select({
       total: sum(expense.amount),
     })
     .from(expense)
-    .where(eq(expense.accountId, myDefaultAccount.id));
+    .where(
+      and(
+        eq(expense.accountId, myDefaultAccount.id),
+        from ? gt(expense.due, new Date(from)) : undefined,
+        to ? lt(expense.due, new Date(to)) : undefined
+      )
+    );
   const totalExpenses = Number(expenses.total);
   return totalExpenses;
   // } catch (error) {

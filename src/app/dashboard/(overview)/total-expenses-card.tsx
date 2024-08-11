@@ -4,18 +4,12 @@ import { ArrowDown } from "lucide-react";
 import { Suspense } from "react";
 import ExpensesCardData from "./expenses-card-data";
 
-export default function TotalExpensesCard({
-  selected,
-}: {
-  selected?: boolean;
+export default function TotalExpensesCard(searchParams?: {
+  from?: string;
+  to?: string;
 }) {
   return (
-    <Card
-      className={cn(
-        "duration-200 transition-colors bg-background"
-        // selected ? "bg-accent" : "bg-card",
-      )}
-    >
+    <Card className={cn("duration-200 transition-colors bg-background")}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <span className="text-red-500">
@@ -26,7 +20,7 @@ export default function TotalExpensesCard({
       </CardHeader>
       <CardContent>
         <Suspense fallback={<div className="w-28 h-8 bg-primary/10" />}>
-          <ExpensesCardData />
+          <ExpensesCardData {...searchParams} />
         </Suspense>
       </CardContent>
     </Card>

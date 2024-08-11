@@ -3,15 +3,13 @@
 import { getTotalExpenses } from "./expenses.actions";
 import { getTotalIncomes } from "./incomes.actions";
 
-export async function getBalance() {
-  // try {
-  const totalIncomes = await getTotalIncomes();
+export async function getBalance(searchParams?: {
+  from?: string;
+  to?: string;
+}) {
+  const totalIncomes = await getTotalIncomes(searchParams);
 
-  const totalExpenses = await getTotalExpenses();
+  const totalExpenses = await getTotalExpenses(searchParams);
 
   return totalIncomes - totalExpenses;
-  // } catch (error) {
-  //   console.log(error);
-  //   throw new Error();
-  // }
 }

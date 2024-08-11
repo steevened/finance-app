@@ -104,7 +104,11 @@ export function DateRangePicker({
                   : `${readableDate}`}
               </span>
               <div className="flex gap-1.5">
-                <Button onClick={() => setOpen(false)} variant={"outline"}>
+                <Button
+                  disabled={isLoading}
+                  onClick={() => setOpen(false)}
+                  variant={"outline"}
+                >
                   Cancel
                 </Button>
                 <Button

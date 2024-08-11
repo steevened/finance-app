@@ -5,14 +5,12 @@ import { Scale } from "lucide-react";
 import { Suspense } from "react";
 import BalanceData from "./balance-data";
 
-export default function BalanceCard({ selected }: { selected?: boolean }) {
+export default function BalanceCard(searchParams?: {
+  from?: string;
+  to?: string;
+}) {
   return (
-    <Card
-      className={cn(
-        "duration-200 transition-colors bg-background"
-        // selected ? "bg-accent" : "bg-card",
-      )}
-    >
+    <Card className={cn("duration-200 transition-colors bg-background")}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <span className="text-sky-500">
@@ -23,7 +21,7 @@ export default function BalanceCard({ selected }: { selected?: boolean }) {
       </CardHeader>
       <CardContent>
         <Suspense fallback={<Skeleton className="w-28 h-8 bg-primary/10" />}>
-          <BalanceData />
+          <BalanceData {...searchParams} />
         </Suspense>
       </CardContent>
     </Card>

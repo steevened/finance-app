@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -11,12 +10,19 @@ import { getMyExpenses } from "@/lib/actions/expenses.actions";
 import { formatCurrency } from "@/lib/utils";
 import ExpenseDropdown from "./expense.dropdown";
 
-export default async function ExpensesTable() {
-  const myExpenses = await getMyExpenses();
+export default async function ExpensesTable({
+  searchParams,
+}: {
+  searchParams: {
+    from?: string;
+    to?: string;
+  };
+}) {
+  const myExpenses = await getMyExpenses(searchParams);
   return (
     <div className="border rounded-lg">
       <Table>
-        <TableCaption>A list of your recent expenses.</TableCaption>
+        {/* <TableCaption>A list of your recent expenses.</TableCaption> */}
         <TableHeader>
           <TableRow>
             <TableHead>Name</TableHead>

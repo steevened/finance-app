@@ -1,22 +1,14 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getMyIncomes } from "@/lib/actions/incomes.actions";
 import { formatCurrency } from "@/lib/utils";
 import IncomeDropdown from "./income-dropdown";
-import { getMyIncomes } from "@/lib/actions/incomes.actions";
-// import { dateParamsCache, searchParamsCache } from "@/lib/server";
-import { createSearchParamsCache, parseAsString } from "nuqs/server"; // Note: import from 'nuqs/server' to avoid the "use client" directive
-
-const dateParamsCache = createSearchParamsCache({
-  from: parseAsString.withDefault(""),
-  to: parseAsString.withDefault(""),
-});
 
 export default async function IncomesTable({
   searchParams,
@@ -26,8 +18,7 @@ export default async function IncomesTable({
     to?: string;
   };
 }) {
-  const parsedParams = dateParamsCache.parse(searchParams);
-  const myIncomes = await getMyIncomes(parsedParams);
+  const myIncomes = await getMyIncomes(searchParams);
   return (
     <div className="border rounded-lg">
       <Table>

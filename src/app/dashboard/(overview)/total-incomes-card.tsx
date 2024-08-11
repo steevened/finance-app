@@ -5,14 +5,12 @@ import { ArrowUp } from "lucide-react";
 import { Suspense } from "react";
 import IncomesCardData from "./incomes-card-data";
 
-export default function TotalIncomesCard({ selected }: { selected?: boolean }) {
+export default function TotalIncomesCard(searchParams?: {
+  from?: string;
+  to?: string;
+}) {
   return (
-    <Card
-      className={cn(
-        "duration-200 transition-colors bg-background"
-        // selected ? "bg-accent" : "bg-card",
-      )}
-    >
+    <Card className={cn("duration-200 transition-colors bg-background")}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <span className="text-green-500">
@@ -23,8 +21,7 @@ export default function TotalIncomesCard({ selected }: { selected?: boolean }) {
       </CardHeader>
       <CardContent>
         <Suspense fallback={<Skeleton className="w-28 h-8 bg-primary/10" />}>
-          <IncomesCardData />
-          {/* <Skeleton className="w-28 h-8 bg-primary/10" /> */}
+          <IncomesCardData {...searchParams} />
         </Suspense>
       </CardContent>
     </Card>

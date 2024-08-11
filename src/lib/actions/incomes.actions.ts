@@ -1,13 +1,13 @@
 "use server";
 
-import { and, desc, eq, gt, gte, lt, lte, sum } from "drizzle-orm";
+import { and, desc, eq, gt, lt, sum } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { db } from "../db";
 import { income } from "../db/schema";
 import { createIncomeSchema } from "../schemas/incomes.schema";
+import { extendsDateRange } from "../utils";
 import { getMyDefaultAccount } from "./account.actions";
-import { addDays, parse, subDays } from "date-fns";
 
 type CreateIncome = z.infer<typeof createIncomeSchema>;
 type UpdateIncome = Partial<CreateIncome>;
@@ -15,12 +15,10 @@ type UpdateIncome = Partial<CreateIncome>;
 export const getMyIncomes = async (params?: { from?: string; to?: string }) => {
   const myDefaultAccount = await getMyDefaultAccount();
 
-  const from = params?.from
-    ? subDays(parse(params.from, "MM/dd/yyyy", new Date()), 1)
-    : undefined;
-  const to = params?.to
-    ? addDays(parse(params.to, "MM/dd/yyyy", new Date()), 1)
-    : undefined;
+  const { from, to } = extendsDateRange({
+    from: params?.from as string,
+    to: params?.to as string,
+  });
 
   return await db
     .select({
@@ -84,7 +82,6 @@ export const updateIncome = async ({
     throw new Error(error as string);
   }
 };
-
 export const deleteIncome = async (incomeId: number) => {
   try {
     const myDefaultAccount = await getMyDefaultAccount();
@@ -99,18 +96,28 @@ export const deleteIncome = async (incomeId: number) => {
   }
 };
 
-export const getTotalIncomes = async () => {
+export const getTotalIncomes = async (searchParams?: {
+  from?: string;
+  to?: string;
+}) => {
+  const { from, to } = extendsDateRange({
+    from: searchParams?.from as string,
+    to: searchParams?.to as string,
+  });
+
   const myDefaultAccount = await getMyDefaultAccount();
-  // try {
   const [total] = await db
     .select({
       total: sum(income.amount),
     })
     .from(income)
-    .where(eq(income.accountId, myDefaultAccount.id));
+    .where(
+      and(
+        eq(income.accountId, myDefaultAccount.id),
+        from ? gt(income.due, new Date(from)) : undefined,
+        to ? lt(income.due, new Date(to)) : undefined
+      )
+    );
   const totalIncome = Number(total.total);
   return totalIncome;
-  // } catch (error) {
-  //   throw new Error();
-  // }
 };
