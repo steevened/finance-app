@@ -35,11 +35,11 @@ export function DateRangePicker({
 
   const { getQueryParam, setQueryParams } = useParams();
 
-  const from = getQueryParam("from");
+  const from = getQueryParam("from") || initialFrom;
   const to = getQueryParam("to");
 
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(formatDate(initialFrom || from)),
+    from: new Date(formatDate(from)),
     to: new Date(formatDate(to)),
   });
 
